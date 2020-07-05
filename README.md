@@ -2,7 +2,7 @@
 Getting started with kafka
 Steps to download and install kafka on windows.
 
-1. http://archive.apache.org/dist/kafka/1.0.1/kafka_2.12-1.0.1.tgz  (or any latest version -- binary not source
+1. http://archive.apache.org/dist/kafka/1.0.1/kafka_2.12-1.0.1.tgz  (or any latest version -- binary not source)
 2. Create folder kafka in C:/
 3. Extract downloaded zip under the newly created kafka folder
 
