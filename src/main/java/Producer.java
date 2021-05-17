@@ -7,8 +7,8 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.time.LocalDateTime;
 import java.util.Properties;
+import java.util.Scanner;
 
 /**
  * @author Vinayak Chaturvedi
@@ -18,17 +18,11 @@ public class Producer {
     private static final Logger logger = LogManager.getLogger(Producer.class);
 
     public static void main(String[] args) {
-        String topicName;
-        int numEvents;
+        String topicName = "test";
 
-        if (args.length != 2) {
-            System.out.println("Please provide command line arguments: topicName numEvents");
-            System.exit(-1);
-        }
-        topicName = args[0];
-        numEvents = Integer.parseInt(args[1]);
+
         logger.info("Starting HelloProducer...");
-        logger.debug("topicName=" + topicName + ", numEvents=" + numEvents);
+        logger.debug("topicName=" + topicName);
         logger.trace("Creating Kafka Producer...");
         Properties props = new Properties();
         props.put(ProducerConfig.CLIENT_ID_CONFIG, "HelloProducer");
@@ -38,9 +32,15 @@ public class Producer {
         KafkaProducer<Integer, String> producer = new KafkaProducer<>(props);
         logger.trace("Start sending messages...");
         try {
-            for (int i = 1; i <= numEvents; i++) {
-                String value = "Simple Message- " + LocalDateTime.now().toString() + " ";
-                producer.send(new ProducerRecord<>(topicName, i, value + i));
+            Scanner sc = new Scanner(System.in);
+            System.out.print("Print 1 for message and 2 for exit: ");
+            int input = Integer.parseInt(sc.nextLine());
+            while (input != 2) {
+                System.out.print("Message: ");
+                String message = sc.nextLine();
+                producer.send(new ProducerRecord<>(topicName, message));
+                System.out.print("Print 1 for message and 2 for exit: ");
+                input = Integer.parseInt(sc.nextLine());
             }
         } catch (KafkaException e) {
             logger.error("Exception occurred – Check log for more details.\n" + e.getMessage());
